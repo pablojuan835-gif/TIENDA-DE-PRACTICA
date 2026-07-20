@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda Práctica — GTM & GA4</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; color: #1f2328; line-height: 1.5; }
+  header { background: #16213e; color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  header nav a { color: #cdd6f4; text-decoration: none; margin-left: 20px; font-size: 14px; }
+  header nav a:hover { color: #fff; }
+  .hero { background: #eef1f8; padding: 64px 24px; text-align: center; }
+  .hero h1 { font-size: 32px; margin-bottom: 12px; }
+  .hero p { color: #555; margin-bottom: 24px; }
+  .btn { display: inline-block; background: #16213e; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-size: 15px; cursor: pointer; text-decoration: none; }
+  .btn:hover { background: #0e1530; }
+  .btn-outline { background: transparent; color: #16213e; border: 2px solid #16213e; }
+  section { padding: 48px 24px; max-width: 960px; margin: 0 auto; }
+  section h2 { margin-bottom: 24px; font-size: 22px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .card { border: 1px solid #e3e6ea; border-radius: 8px; padding: 20px; text-align: center; }
+  .card .price { color: #16213e; font-weight: bold; margin: 8px 0 16px; }
+  .swatch { height: 90px; border-radius: 6px; margin-bottom: 12px; }
+  .s1 { background: #f4a261; } .s2 { background: #2a9d8f; } .s3 { background: #e76f51; } .s4 { background: #457b9d; }
+  #carrito-info { text-align: center; padding: 12px; background: #fff8e1; font-size: 14px; }
+  form { max-width: 420px; }
+  form label { display: block; margin-bottom: 6px; font-size: 14px; }
+  form input, form select { width: 100%; padding: 10px; margin-bottom: 16px; border: 1px solid #ccc; border-radius: 4px; }
+  footer { background: #16213e; color: #cdd6f4; text-align: center; padding: 24px; font-size: 13px; }
+  footer a { color: #fff; margin: 0 8px; text-decoration: none; }
+  #gracias { display: none; background: #e8f5e9; border: 1px solid #a5d6a7; padding: 20px; border-radius: 6px; margin-top: 16px; text-align: center; }
+  .video-box { background: #000; color: #fff; height: 220px; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header>
+  <strong>Tienda Práctica</strong>
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#contacto">Contacto</a>
+    <a id="link-externo" href="https://support.google.com/tagmanager" target="_blank" rel="noopener">Ayuda (externo)</a>
+  </nav>
+</header>
+
+<div id="carrito-info">🛒 Productos en el carrito: <span id="contador-carrito">0</span></div>
+
+<section class="hero">
+  <h1>Sitio de práctica para GTM y GA4</h1>
+  <p>Usa esta página para instalar Tag Manager, configurar etiquetas y validar eventos en GA4.</p>
+  <button class="btn" id="cta-hero" data-event="cta_hero_click">Ver productos</button>
+</section>
+
+<section id="productos">
+  <h2>Productos</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="swatch s1"></div>
+      <h3>Producto A</h3>
+      <p class="price">$199 MXN</p>
+      <button class="btn btn-add-cart" data-product-id="A" data-product-name="Producto A" data-price="199">Añadir al carrito</button>
+    </div>
+    <div class="card">
+      <div class="swatch s2"></div>
+      <h3>Producto B</h3>
+      <p class="price">$349 MXN</p>
+      <button class="btn btn-add-cart" data-product-id="B" data-product-name="Producto B" data-price="349">Añadir al carrito</button>
+    </div>
+    <div class="card">
+      <div class="swatch s3"></div>
+      <h3>Producto C</h3>
+      <p class="price">$99 MXN</p>
+      <button class="btn btn-add-cart" data-product-id="C" data-product-name="Producto C" data-price="99">Añadir al carrito</button>
+    </div>
+    <div class="card">
+      <div class="swatch s4"></div>
+      <h3>Producto D</h3>
+      <p class="price">$459 MXN</p>
+      <button class="btn btn-add-cart" data-product-id="D" data-product-name="Producto D" data-price="459">Añadir al carrito</button>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top: 32px;">
+    <button class="btn btn-outline" id="btn-checkout">Finalizar compra</button>
+    <div id="gracias">✅ ¡Gracias por tu compra! (evento de conversión simulado)</div>
+  </div>
+</section>
+
+<section>
+  <h2>Video de ejemplo</h2>
+  <div class="video-box" id="video-demo" data-event="video_play_click">▶ Reproducir video (simulado)</div>
+</section>
+
+<section id="contacto">
+  <h2>Contacto / Newsletter</h2>
+  <form id="form-newsletter">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <label for="email">Correo</label>
+    <input type="email" id="email" name="email" required>
+    <label for="interes">Interés</label>
+    <select id="interes" name="interes">
+      <option value="gtm">Google Tag Manager</option>
+      <option value="ga4">Google Analytics 4</option>
+      <option value="ambos">Ambos</option>
+    </select>
+    <button type="submit" class="btn" id="btn-submit-form">Enviar</button>
+  </form>
+  <p id="msg-form" style="display:none; color:#2a9d8f; margin-top:8px;">Formulario enviado correctamente.</p>
+</section>
+
+<footer>
+  <p>Página de práctica — sin backend real, todo ocurre en el navegador.</p>
+  <a href="https://www.facebook.com" target="_blank" rel="noopener">Facebook</a>
+  <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+<script>
+  let carrito = 0;
+  document.querySelectorAll('.btn-add-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      carrito++;
+      document.getElementById('contador-carrito').textContent = carrito;
+    });
+  });
+
+  document.getElementById('btn-checkout').addEventListener('click', () => {
+    document.getElementById('gracias').style.display = 'block';
+  });
+
+  document.getElementById('video-demo').addEventListener('click', function() {
+    this.textContent = '⏸ Reproduciendo...';
+  });
+
+  document.getElementById('form-newsletter').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('msg-form').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
