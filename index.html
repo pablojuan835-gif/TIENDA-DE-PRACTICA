@@ -129,27 +129,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script>
-  let carrito = 0;
+  let carritoItems = [];
   document.querySelectorAll('.btn-add-cart').forEach(btn => {
     btn.addEventListener('click', () => {
-      carrito++;
-      document.getElementById('contador-carrito').textContent = carrito;
+      carritoItems.push({
+        item_id: btn.dataset.productId,
+        item_name: btn.dataset.productName,
+        price: parseFloat(btn.dataset.price)
+      });
+      document.getElementById('contador-carrito').textContent = carritoItems.length;
     });
   });
 
   document.getElementById('btn-checkout').addEventListener('click', () => {
+    const total = carritoItems.reduce((sum, item) => sum + item.price, 0);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'purchase_data',
+      ecommerce: {
+        value: total,
+        currency: 'MXN',
+        items: carritoItems
+      }
+    });
     document.getElementById('gracias').style.display = 'block';
-  });
-
-  document.getElementById('video-demo').addEventListener('click', function() {
-    this.textContent = '⏸ Reproduciendo...';
-  });
-
-  document.getElementById('form-newsletter').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('msg-form').style.display = 'block';
-  });
-</script>
+  });</script>
 
 </body>
 </html>
